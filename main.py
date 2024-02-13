@@ -22,7 +22,7 @@ def create_table():
   conn.close()
 
 # Insert data into the table
-
+  
 def insert_data():
   conn = psycopg2.connect(
       dbname='student',
@@ -31,9 +31,15 @@ def insert_data():
       host='localhost',
       port='5432'
     )
+  
+  name = input("Enter name: ")
+  age = int(input("Enter age: "))
+  address = input("Enter address: ")
 
   cur = conn.cursor()
-  cur.execute("INSERT INTO teacher (NAME, AGE, ADDRESS) VALUES (%s, %s, %s)", ('Dave', 29, 'Canada'))
+  query = ("INSERT INTO teacher (NAME, AGE, ADDRESS) VALUES (%s, %s, %s)")
+  cur.execute(query, (name, age, address))
   conn.commit()
   conn.close()
   
+insert_data()
