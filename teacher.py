@@ -21,6 +21,7 @@ def insert_data(name, age, adress):
   cur.execute(query, (name, age, adress))
   conn.commit()
   conn.close()
+  display_all()
 
 def searchID(id):
   conn = psycopg2.connect(
