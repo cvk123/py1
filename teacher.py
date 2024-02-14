@@ -22,6 +22,47 @@ def insert_data(name, age, adress):
   conn.commit()
   conn.close()
 
+def searchID(id):
+  conn = psycopg2.connect(
+      dbname='student',
+      user='postgres',
+      password='admin123',
+      host='localhost',
+      port='5432'
+    )
+  
+  cur = conn.cursor()
+  query = ("SELECT * FROM teacher WHERE ID = %s")
+  cur.execute(query, (id))
+  row = cur.fetchone()
+  display_search(row)
+  conn.commit()
+  conn.close()
+
+def display_search(data):
+  listbox = Listbox(root, width=20, height=1, font=("Arial", 15))
+  listbox.grid(row=7, column=1)
+  listbox.insert(0, data)
+
+def display_all():
+  conn = psycopg2.connect(
+      dbname='student',
+      user='postgres',
+      password='admin123',
+      host='localhost',
+      port='5432'
+    )
+  
+  cur = conn.cursor()
+  query = "SELECT * FROM teacher"
+  cur.execute(query)
+  all_data = cur.fetchall()
+  listbox = Listbox(root, width=20, height=10, font=("Arial", 15))
+  listbox.grid(row=8, column=1)
+  for data in all_data:
+    listbox.insert(0, data)
+
+display_all()
 
 # LABELS, ENTRIES
 label_general = Label(root, text="Add data", font=("Arial", 20), bg="#121212", fg="white")
@@ -65,7 +106,10 @@ entry_id = Entry(root, font=("Arial", 15))
 entry_id.grid(row=6, column=1)
 
 # button search
-button_search = Button(root, text="Search", font=("Arial", 10))
+button_search = Button(root, text="Search", font=("Arial", 10), command=lambda:searchID(entry_id.get()))
 button_search.grid(row=6, column=2)
+
+# show search id
+
 
 root.mainloop()
