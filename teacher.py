@@ -38,9 +38,12 @@ def searchID(id):
   
   cur = conn.cursor()
   query = ("SELECT * FROM teacher WHERE ID = %s")
-  cur.execute(query, (id))
+  cur.execute(query, (id,))
   row = cur.fetchone()
-  display_search(row)
+  if row:
+    display_search(row)
+  else:
+    display_search("ID not exist")
   conn.commit()
   conn.close()
 
@@ -64,8 +67,15 @@ def display_all():
   all_data = cur.fetchall()
   listbox = Listbox(root, width=20, height=10, font=("Arial", 15))
   listbox.grid(row=8, column=1)
+  scrollbar = Scrollbar(root)
+  scrollbar.grid(row=8, column=2, sticky="NSW")
+  listbox.config(yscrollcommand=scrollbar.set)
+  scrollbar.config(command=listbox.yview)
+
   for data in all_data:
     listbox.insert(0, data)
+
+
 
 display_all()
 
