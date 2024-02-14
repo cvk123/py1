@@ -8,6 +8,10 @@ root.config(bg="#121212")
 
 # Function
 def insert_data(name, age, adress):
+  entry_name.delete(0, END)
+  entry_age.delete(0, END)
+  entry_address.delete(0, END)
+
   conn = psycopg2.connect(
       dbname='student',
       user='postgres',
@@ -107,7 +111,7 @@ entry_id = Entry(root, font=("Arial", 15))
 entry_id.grid(row=6, column=1)
 
 # button search
-button_search = Button(root, text="Search", font=("Arial", 10), command=lambda:searchID(entry_id.get()))
+button_search = Button(root, text="Search", font=("Arial", 10), command=lambda:searchID(entry_id.get()) if entry_id.get().strip() else None)
 button_search.grid(row=6, column=2)
 
 # show search id
